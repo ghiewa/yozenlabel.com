@@ -4,40 +4,144 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>yoZEN Label - Smart Intelligent Information Labels</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
+            color: #333;
         }
         header {
             background-color: #8B0000; /* 暗红色 */
             color: #fff;
-            padding: 10px 0;
+            padding: 20px 0;
             text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        header p {
+            margin: 5px 0 0;
+            font-size: 1.2rem;
         }
         nav {
-            background-color: #6B0000; /* 稍深的暗红色 */
-            color: #fff;
-            padding: 10px;
+            background: linear-gradient(90deg, #6B0000, #8B0000); /* 渐变背景 */
+            padding: 10px 0;
             text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-        nav a {
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        nav ul li {
+            position: relative;
+        }
+        nav ul li a {
             color: #fff;
-            margin: 0 15px;
+            padding: 10px 20px;
             text-decoration: none;
+            font-size: 1.1rem;
+            transition: background 0.3s, color 0.3s;
+        }
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffcc00; /* 悬停时变为黄色 */
+        }
+        nav ul li .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #6B0000;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+        nav ul li .dropdown a {
+            padding: 12px 16px;
+            display: block;
+            text-align: left;
+        }
+        nav ul li:hover .dropdown {
+            display: block;
         }
         .container {
             padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         .section {
-            margin-bottom: 40px;
+            margin-bottom: 60px;
         }
         .section h2 {
-            color: #333;
-            border-bottom: 2px solid #8B0000; /* 暗红色 */
+            color: #8B0000; /* 暗红色 */
+            border-bottom: 2px solid #8B0000;
             padding-bottom: 10px;
+            font-size: 2rem;
+        }
+        .banner {
+            background-image: url('https://via.placeholder.com/1200x400?text=Label+Solutions+Banner');
+            background-size: cover;
+            background-position: center;
+            padding: 100px 20px;
+            text-align: left; /* 标题和文字居左 */
+            color: #fff;
+            border-radius: 10px;
+            margin-bottom: 60px;
+        }
+        .banner h3 {
+            font-size: 3rem;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .banner p {
+            font-size: 1.5rem;
+            margin: 20px 0 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .key-selling-points {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .key-selling-point {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            flex: 1 1 calc(25% - 40px);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .key-selling-point:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .key-selling-point h4 {
+            font-size: 1.5rem;
+            color: #8B0000; /* 暗红色 */
+            margin-bottom: 10px;
+        }
+        .key-selling-point .dropdown-content {
+            display: none;
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #666;
+        }
+        .key-selling-point.active .dropdown-content {
+            display: block;
         }
         .products {
             display: flex;
@@ -52,6 +156,11 @@
             flex: 1 1 calc(33.333% - 40px);
             box-sizing: border-box;
             text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .product-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         .product-item img {
             max-width: 100%;
@@ -59,14 +168,41 @@
             border-radius: 5px;
             margin-bottom: 15px;
         }
+        .product-item h3 {
+            color: #8B0000; /* 暗红色 */
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
+        .product-item p {
+            font-size: 1rem;
+            color: #666;
+        }
         footer {
             background-color: #8B0000; /* 暗红色 */
             color: #fff;
             text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
+            padding: 20px 0;
+            margin-top: 60px;
+        }
+        footer p {
+            margin: 0;
+            font-size: 1rem;
+        }
+        @media (max-width: 768px) {
+            .key-selling-point {
+                flex: 1 1 calc(50% - 40px);
+            }
+            .product-item {
+                flex: 1 1 calc(50% - 40px);
+            }
+        }
+        @media (max-width: 480px) {
+            .key-selling-point {
+                flex: 1 1 100%;
+            }
+            .product-item {
+                flex: 1 1 100%;
+            }
         }
     </style>
 </head>
@@ -76,21 +212,55 @@
         <p>Smart Intelligent Information Labels</p>
     </header>
     <nav>
-        <a href="#home">Home</a>
-        <a href="#about">About Us</a>
-        <a href="#products">Products & Services</a>
-        <a href="#contact">Contact</a>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li>
+                <a href="#products">Products & Services</a>
+                <div class="dropdown">
+                    <a href="#woven-labels">Woven Labels</a>
+                    <a href="#printed-labels">Printed Labels</a>
+                    <a href="#rfid">RFID</a>
+                    <a href="#belly-bands">Belly Bands</a>
+                    <a href="#heat-transfers">Heat Transfers</a>
+                    <a href="#adhesive-labels">Adhesive Labels</a>
+                </div>
+            </li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
     </nav>
     <div class="container">
         <section id="home" class="section">
-            <h2>Welcome to yoZEN Label</h2>
-            <p>Your Partner in Innovative Labeling Solutions</p>
-            <p>At Yozen Label, we understand that every brand has a unique story to tell. That's why we specialize in crafting high-quality, customizable labeling solutions that not only enhance your brand identity but also streamline your operations.</p>
-        </section>
-        <section id="about" class="section">
-            <h2>About Us</h2>
-            <p>With years of experience in the industry, we offer a comprehensive range of apparel accessories, including RFID, stickers, care labels, and hangtags. Our expertise lies in our ability to efficiently process variable information, allowing you to create personalized labels that capture the essence of your brand and resonate with your customers.</p>
-            <p>Whether you're a renowned fashion house, a dynamic agency, an international trading company, a discerning buyer, or a meticulous manufacturer, Yozen Label is your trusted partner. We're committed to providing you with innovative, cost-effective, and timely labeling solutions that elevate your brand and drive your success.</p>
+            <div class="banner">
+                <h3>Your Partner in<br>Innovative Labeling Solutions</h3>
+                <p>At yoZEN Label,<br>we understand that every brand has a unique story to tell.</p>
+            </div>
+            <div class="key-selling-points">
+                <div class="key-selling-point" onclick="toggleDropdown(this)">
+                    <h4>High-quality materials</h4>
+                    <div class="dropdown-content">
+                        <p>We use only the finest materials to ensure durability and premium quality for your labels.</p>
+                    </div>
+                </div>
+                <div class="key-selling-point" onclick="toggleDropdown(this)">
+                    <h4>Customizable designs</h4>
+                    <div class="dropdown-content">
+                        <p>Tailor your labels to perfectly match your brand's unique identity and requirements.</p>
+                    </div>
+                </div>
+                <div class="key-selling-point" onclick="toggleDropdown(this)">
+                    <h4>Efficient processing</h4>
+                    <div class="dropdown-content">
+                        <p>Our streamlined processes ensure quick turnaround times without compromising quality.</p>
+                    </div>
+                </div>
+                <div class="key-selling-point" onclick="toggleDropdown(this)">
+                    <h4>Timely delivery</h4>
+                    <div class="dropdown-content">
+                        <p>We guarantee on-time delivery to keep your operations running smoothly.</p>
+                    </div>
+                </div>
+            </div>
         </section>
         <section id="products" class="section">
             <h2>Products & Services</h2>
@@ -127,15 +297,25 @@
                 </div>
             </div>
         </section>
+        <section id="about" class="section">
+            <h2>About Us</h2>
+            <p>With years of experience in the industry, we offer a comprehensive range of apparel accessories, including RFID, stickers, care labels, and hangtags. Our expertise lies in our ability to efficiently process variable information, allowing you to create personalized labels that capture the essence of your brand and resonate with your customers.</p>
+            <p>Whether you're a renowned fashion house, a dynamic agency, an international trading company, a discerning buyer, or a meticulous manufacturer, yoZEN Label is your trusted partner. We're committed to providing you with innovative, cost-effective, and timely labeling solutions that elevate your brand and drive your success.</p>
+        </section>
         <section id="contact" class="section">
             <h2>Contact Us</h2>
             <p>Email: <a href="mailto:amyzhong@yozenlabel.com">amyzhong@yozenlabel.com</a></p>
             <p>Phone: 0512-66280030</p>
-            <p>yoZEN Label Co., LTD 苏州佑诚标签有限公司</p>
+            <p>yoZEN Label Co., LTD<br>苏州佑诚标签有限公司</p>
         </section>
     </div>
     <footer>
-        <p>&copy; 2023 yoZEN Label. All rights reserved.</p>
+        <p>&copy; 2025 yoZEN Label. All rights reserved.</p>
     </footer>
+    <script>
+        function toggleDropdown(element) {
+            element.classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
